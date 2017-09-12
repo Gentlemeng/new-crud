@@ -1,4 +1,7 @@
+
 //封装
+    var url="http://192.168.1.127:8905";
+    var pageSize = 10;
     //1.通过选择器获取元素，请求数据并动态渲染到元素上
     function getItemData(option, fn) {
         var getAddData = {
@@ -95,6 +98,148 @@
         })
         
     }
+    //
+    function fuzzyGetHomePage(options) {
+        // console.log(options.searchName);
+        // var searchName = $('.itemName').val();
+        // console.log(searchName)
+        // console.log(options.searchId);
+        //模糊查询
+        var getDataByFuzzy = {
+            url: options.url,
+            data: {
+                typeFlag:options.typeFlag,
+                pageNum: options.pageNum || 1,
+                pageSize: options.pageSize || 15,
+                searchId: options.searchId,
+                searchName: options.searchName
+            },
+            type: 'post',
+            // beforeSend: function () {
+            //     $('.loading').show();
+            // },
+            success: function (result) {
+                console.log(result);
+                
+                var html = template('data-list', {
+                    list: result.list
+                });
+                $(options.whichSingle+'.list').html(html);
+                //计算尾页
+                endPage = Math.ceil(result.total / options.pageSize);
+                console.log(endPage);
+                console.log(options.pageNum)
+                $(options.whichSingle+'.record').attr({"endPage":endPage})
+                $(options.whichSingle+'.isPage').text(options.pageNum)
+                $(options.whichSingle+'.allPage').text(result.allPage)
+
+                if(result.total==0){
+                    alert('没有数据，点击确定返回首页')
+                    fuzzyGetHomePage({
+                        pageNum: 1,
+                        pageSize: options.pageSize,
+                    })
+                    // $('.itemName').val('');
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            },
+            // complete: function () {
+            //     $('.loading').hide();
+            // }
+        };
+        $.ajax(getDataByFuzzy);
+    }
+
+    //单表管理中的首页/上一页/下一页/尾页/跳转
+    function updownPage(that) {
+        
+        var id = '#' + that.closest('.panel').attr('id');
+        var mark = id.charAt(id.length - 1);
+        var pageNum=parseInt($(id+' .record').attr('currentPage'));
+        var endPage=parseInt($(id+" .record").attr('endPage'))
+        // $(id+' .record').attr({'endPage':})
+        switch (mark) {
+            case "1":
+                typeFlag = "unit"
+                break;
+            case "2":
+                typeFlag = "datatype"
+                break;
+            case "3":
+                typeFlag = "industry"
+                break;
+            case "4":
+                typeFlag = "index"
+                break;
+            default:
+                break;
+        }
+        if (that.attr('class') == "previous") {
+            if (pageNum == "1") {
+                alert('当前页为首页')
+                return false;
+            } else {
+                pageNum--;
+            }
+        } else if (that.attr('class') == "next") {
+            if (pageNum >= endPage) {
+                alert('当前页为最后一页')
+                return;
+            } else {
+                pageNum++;
+            }
+        }else if(that.attr('class')=="homePage"){
+            fuzzyGetHomePage({
+                url: url + '/viewdim',
+                pageNum: 1,
+                pageSize: pageSize,
+                typeFlag: typeFlag,
+                whichSingle: id+' '
+            });
+            $(id+' .record').attr({'currentPage':pageNum})
+            return;
+        }else if(that.attr('class')=='end'){
+            fuzzyGetHomePage({
+                url: url + '/viewdim',
+                pageNum: endPage,
+                pageSize: pageSize,
+                typeFlag: typeFlag,
+                whichSingle: id+' '
+            });
+            $(id+' .record').attr({'currentPage':endPage})
+            return;
+        }else if(that.attr('class')=='go'){
+            var gotoPageVal=$(id+' .gotoPage').val();
+            // console.log(gotoPageVal)
+            // (
+            if($.trim(gotoPageVal)==''||(parseInt(gotoPageVal)<1||parseInt(gotoPageVal)>endPage)){
+                alert('请输入正确页码')
+                return;
+            }else{
+                fuzzyGetHomePage({
+                    url: url + '/viewdim',
+                    pageNum: gotoPageVal,
+                    pageSize: pageSize,
+                    typeFlag: typeFlag,
+                    whichSingle: id+' '
+                });
+                $(id+' .record').attr({'currentPage':gotoPageVal})
+                $(id+' .gotoPage').val('');
+                return;
+            }
+        }
+        $(id+' .record').attr({'currentPage':pageNum})
+        fuzzyGetHomePage({
+            url: url + '/viewdim',
+            pageNum: pageNum,
+            pageSize: pageSize||10,
+            typeFlag: typeFlag,
+            whichSingle: id+' '
+        })
+    }
+    
 
     //2.计算json对象的长度
     function jsonLength(json) {

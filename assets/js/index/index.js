@@ -1,4 +1,6 @@
 $(function () {
+    //点击跳转到单表页面，阻止默认行为
+    
     //点击任意地方，隐藏模态框
     $('body').click(function () {
         $('.searchTips').hide();
@@ -11,9 +13,11 @@ $(function () {
         searchCon;
     //获取首页数据
     fuzzyGetHomePage({
+        url:url+'/findItem',
         pageNum: pageNum,
         pageSize: pageSize,
-        searchId: searchId
+        searchId: searchId,
+        whichSingle:'#total-manage '
     });
     // console.log(endPage);
     //点击首页
@@ -23,10 +27,12 @@ $(function () {
         pageNum = 1;
         //模糊查询
         fuzzyGetHomePage({
+            url:url+'/findItem',
             pageNum: pageNum,
             pageSize: pageSize,
             searchId: searchId,
-            searchName:searchCon
+            searchName:searchCon,
+            whichSingle:'#total-manage '
         })
     })
     //点击上一页
@@ -39,10 +45,12 @@ $(function () {
             pageNum--;
         }
         fuzzyGetHomePage({
+            url:url+'/findItem',
             pageNum: pageNum,
             pageSize: pageSize,
             searchId: searchId,
-            searchName:searchCon
+            searchName:searchCon,
+            whichSingle:'#total-manage '
         })
     });
 
@@ -53,16 +61,20 @@ $(function () {
         searchCon=$('.itemName').val();
         if (pageNum >= endPage) {
             alert('当前页为最后一页')
-            return false;
+            return;
         } else {
             pageNum++;
         }
         fuzzyGetHomePage({
+            url:url+'/findItem',
             pageNum: pageNum,
             pageSize: pageSize,
             searchId: searchId,
-            searchName:searchCon
+            searchName:searchCon,
+            whichSingle:'#total-manage '
         })
+        // var that = $(this)
+        // updownPage(that);
     });
 
     //点击尾页
@@ -71,10 +83,12 @@ $(function () {
         pageNum = endPage
         searchCon=$('.itemName').val();
         fuzzyGetHomePage({
+            url:url+'/findItem',
             pageNum: pageNum,
             pageSize: pageSize,
             searchId: searchId,
-            searchName:searchCon
+            searchName:searchCon,
+            whichSingle:'#total-manage '
         })
     })
     //点击跳转页
@@ -85,7 +99,7 @@ $(function () {
         // console.log((parseInt($.trim(val)) - 0 < 1 ) || (parseInt($.trim(val)) - 0 > endPage))
         if ($.trim(val) == '' || ((parseInt($.trim(val)) - 0 < 1) || (parseInt($.trim(val)) - 0 > endPage))) {
             alert('请输入正确页码')
-            return false;
+            return;
         } else {
             skipByPageNum();
         }
@@ -137,7 +151,7 @@ $(function () {
                                 // %E8%AF%B7%E9%80%89%E6%8B%A9
         //保存数据发起ajax请求
         var saveData = {
-            url: 'http://192.168.1.127:8905/addItemSave',
+            url: url+'/addItemSave',
             type: 'post',
             data: formData,
             success: function (result) {
@@ -153,14 +167,16 @@ $(function () {
         $('#formAdd .outer select').html('<option>请选择</option>')
         //保存后进行页面渲染
         fuzzyGetHomePage({
-            pageNum: endPage,
+            url:url+'/findItem',
+            pageNum: 991,
             pageSize: pageSize,
-            searchId: searchId
+            searchId: searchId,
+            whichSingle:'#total-manage '
         });
     })
 
     // 点击编辑按钮
-    $('#list').on('click', '.showModal', function () {
+    $('.list').on('click', '.showModal', function () {
         console.log(endPage);
 
         //获取当前页
@@ -186,7 +202,7 @@ $(function () {
         getItemData(editSelector, function () {
             // var itemId = This.
             var itemData = {
-                url: 'http://192.168.1.127:8905/itemUpdateView',
+                url: url+'/itemUpdateView',
                 data: itemId,
                 success: function (itemResult) {
                     console.log(itemResult);
@@ -221,7 +237,7 @@ $(function () {
                         var proId = $('#edit_province').find('option:selected').attr('proId');
                         console.log(proId)
                         var getCityData = {
-                            url: 'http://192.168.1.127:8905/getArea',
+                            url: url+'/getArea',
                             data: {
                                 areaId: proId
                             },
@@ -241,7 +257,7 @@ $(function () {
                                 var cityId = itemResult.areaView[1].areaId;
                                 console.log(cityId);
                                 var getEditCountyData = {
-                                    url: 'http://192.168.1.127:8905/getArea',
+                                    url: url+'/getArea',
                                     data: {
                                         areaId: cityId
                                     },
@@ -274,7 +290,7 @@ $(function () {
                         var proId = $('#edit_province').find('option:selected').attr('proId');
                         console.log(proId)
                         var getCityData = {
-                            url: 'http://192.168.1.127:8905/getArea',
+                            url: url+'/getArea',
                             data: {
                                 areaId: proId
                             },
@@ -295,7 +311,7 @@ $(function () {
                         //显示市
                         // var cityJson=itemResult.areaView[1];
                         // $('#edit_city').html('<option>'+cityJson.areaName+'</option>')
-                    } else {
+                    } else if(areaLength ==1){
                         console.log('进来了')
                         var proJson = itemResult.areaView[0];
                         $('#edit_province').val(proJson.areaName)
@@ -304,7 +320,7 @@ $(function () {
                         var proId = itemResult.areaView[0].areaId;
                         console.log(proId)
                         var getCityData = {
-                            url: 'http://192.168.1.127:8905/getArea',
+                            url: url+'/getArea',
                             data: {
                                 areaId: proId
                             },
@@ -322,6 +338,9 @@ $(function () {
                             }
                         }
                         $.ajax(getCityData)
+                    //没有地区的情况
+                    }else{
+                        console.log('不用做什么');
                     }
                 },
                 error: function (error) {
@@ -360,7 +379,7 @@ $(function () {
             var editFormData = $('#formEdit').serialize();
             console.log(editFormData);
             var updataData = {
-                url: 'http://192.168.1.127:8905/updateItemSave',
+                url: url+'/updateItemSave',
                 type: 'post',
                 data: editFormData,
                 success: function (result) {
@@ -375,12 +394,12 @@ $(function () {
     })
 
     //点击删除按钮
-    $('#list').on('click', '.delete', function () {
+    $('.list').on('click', '.delete', function () {
         if (confirm("确定删除数据")) {
             var deleteId = $(this).parent().parent().attr('id');
             console.log(deleteId);
             var deleteData = {
-                url: 'http://192.168.1.127:8905/deleteItemList',
+                url: url+'/deleteItemList',
                 type: 'post',
                 data: deleteId,
                 success: function (result) {
@@ -433,7 +452,7 @@ $(function () {
         else if ($.trim(preVal) != $.trim(nowVal)) {
             preVal = nowVal
             var getTipsCon = {
-                url: 'http://192.168.1.127:8905/tipFindItem',
+                url: url+'/tipFindItem',
                 data: {
                     searchId: searchId,
                     searchName: nowVal
@@ -484,6 +503,7 @@ $(function () {
             alert('搜索内容不能为空')
             return
         } else {
+            pageNum=1;
             fuzzyGetHomePage({
                 pageNum: pageNum,
                 pageSize: pageSize,
@@ -501,63 +521,65 @@ $(function () {
         var currentNum = $('.isPage').val();
         searchCon=$('.itemName').val();
         fuzzyGetHomePage({
+            url:url+'findItem',
             pageNum: pageNum || currentNum,
             pageSize: pageSize,
             searchId: searchId,
-            searchName:searchCon
+            searchName:searchCon,
+            whichSingle:'#total-manage '
         });
     }
     //模糊查询
-    function fuzzyGetHomePage(options) {
-        // console.log(options.searchName);
-        // var searchName = $('.itemName').val();
-        // console.log(searchName)
-        // console.log(options.searchId);
-        //模糊查询
-        var getDataByFuzzy = {
-            url: 'http://192.168.1.127:8905/findItem',
-            data: {
-                pageNum: options.pageNum || 1,
-                pageSize: options.pageSize || 15,
-                searchId: options.searchId,
-                searchName: options.searchName
-            },
-            type: 'post',
-            // beforeSend: function () {
-            //     $('.loading').show();
-            // },
-            success: function (result) {
-                console.log(result);
+    // function fuzzyGetHomePage(options) {
+    //     // console.log(options.searchName);
+    //     // var searchName = $('.itemName').val();
+    //     // console.log(searchName)
+    //     // console.log(options.searchId);
+    //     //模糊查询
+    //     var getDataByFuzzy = {
+    //         url: url+'/findItem',
+    //         data: {
+    //             pageNum: options.pageNum || 1,
+    //             pageSize: options.pageSize || 15,
+    //             searchId: options.searchId,
+    //             searchName: options.searchName
+    //         },
+    //         type: 'post',
+    //         // beforeSend: function () {
+    //         //     $('.loading').show();
+    //         // },
+    //         success: function (result) {
+    //             console.log(result);
                 
-                var html = template('data-list', {
-                    list: result.list
-                });
-                $('#list').html(html);
-                //计算尾页
-                endPage = Math.ceil(result.total / options.pageSize);
-                console.log(endPage);
-                console.log(options.pageNum)
-                $('.isPage').text(options.pageNum)
-                $('.allPage').text(result.allPage)
+    //             var html = template('data-list', {
+    //                 list: result.list
+    //             });
+    //             $('#list').html(html);
+    //             //计算尾页
+    //             endPage = Math.ceil(result.total / options.pageSize);
+    //             console.log(endPage);
+    //             console.log(options.pageNum)
+    //             $('.isPage').text(options.pageNum)
+    //             $('.allPage').text(result.allPage)
 
-                if(result.total==0){
-                    alert('没有数据，点击确定返回首页')
-                    fuzzyGetHomePage({
-                        pageNum: 1,
-                        pageSize: pageSize,
-                    })
-                    $('.itemName').val('');
-                }
-            },
-            error: function (error) {
-                console.log(error)
-            },
-            // complete: function () {
-            //     $('.loading').hide();
-            // }
-        };
-        $.ajax(getDataByFuzzy);
-    }
+    //             if(result.total==0){
+    //                 alert('没有数据，点击确定返回首页')
+    //                 fuzzyGetHomePage({
+    //                     pageNum: 1,
+    //                     pageSize: pageSize,
+    //                 })
+    //                 $('.itemName').val('');
+    //             }
+    //         },
+    //         error: function (error) {
+    //             console.log(error)
+    //         },
+    //         // complete: function () {
+    //         //     $('.loading').hide();
+    //         // }
+    //     };
+    //     $.ajax(getDataByFuzzy);
+    // }
     //点击展开收缩
     $('.navs ul li ul li a').click(function () {
         return false;

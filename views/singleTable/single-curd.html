@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../../assets/css/index.css">
+</head>
+
+<body>
+    <!-- 侧边栏 -->
+    <div class="aside">
+        <!-- 导航菜单 -->
+        <div class="navs">
+            <ul class="list-unstyled">
+                <li>
+                    <a href="./../index/index.html">
+                        <i class="fa fa-home"></i>
+                        元数据管理
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="active to-single">
+                        <i class="fa fa-cog"></i>
+                        单表管理
+                        <i class="arrow fa fa-angle-right"></i>
+                    </a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#single-manage1">
+                                 项目单位
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#single-manage2">
+                                数据类型
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#single-manage3">
+                                行业名称
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#single-manage4">
+                                指标名称
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-bell"></i>
+                        数据列表
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-bell"></i>
+                        数据列表
+                        <i class="arrow fa fa-angle-right"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript:;">
+                        <i class="fa fa-bell"></i>
+                        数据管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 主体 -->
+    <div class="main">
+        <div class="container-fluid">
+            <div class="body">
+                <div id="single-manage1" class="panel panel-primary user-list">
+                    <div class="panel-heading">项目单位</div>
+                    <!-- 表格部分 -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>单位名称</th>
+                                <th>code</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <!-- 数据展示在这里 -->
+                        <tbody class="list"></tbody>
+                    </table>
+                    <!-- 分页部分 -->
+                    <div class="Page clear">
+                        <nav class="xh-pageBody pull-right" aria-label="Page navigation">
+                            <ul class="pagination pull-left">
+                                <li>
+                                    <a href="javascript:;" aria-label="Previous" class="homePage">
+                                        <span aria-hidden="true">首页</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Previous" class="previous">
+                                        <span aria-hidden="true">上一页</span>                   
+                                    </a>
+                                </li>
+                                <li class="record" currentPage=1 endPage=""><a href="javascript:;" class="current">当前页</a></li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Next" class="next">
+                                        <span aria-hidden="true">下一页</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Next" class="end">
+                                        <span aria-hidden="true">尾页</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="right goto">
+                                跳转到 <input class="gotoPage" type="text" value=""> 页
+                                <input class="go" type="button" value="go">
+                            </div>
+                        </nav>
+                        <div class="pageShow right">
+                            <div>
+                                当前页为<span class="isPage">  </span>页
+                            </div>
+                            <div>共<span class="allPage">  </span>页</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="single-manage2" class="panel panel-success user-list">
+                    <div class="panel-heading">数据类型</div>
+                    <!-- 表格部分 -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>数据名称</th>
+                                <th>code</th>
+                                <th>shorName</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <!-- 数据展示在这里 -->
+                        <tbody class="list"></tbody>
+                    </table>
+                    <!-- 分页部分 -->
+                    <div class="Page clear">
+                        <nav class="xh-pageBody pull-right" aria-label="Page navigation">
+                            <ul class="pagination pull-left">
+                                <li>
+                                    <a href="javascript:;" aria-label="Previous" class="homePage">
+                                                        <span aria-hidden="true">首页</span>
+                                                        </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Previous" class="previous">
+                                                            <span aria-hidden="true">上一页</span>
+                                                            
+                                                        </a>
+                                </li>
+                                <li class="record" currentPage=1 endPage=""><a href="javascript:;" class="current">当前页</a></li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Next" class="next">
+                                                            <span aria-hidden="true">下一页</span>
+                                                        </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Next" class="end">
+                                                            <span aria-hidden="true">尾页</span>
+                                                        </a>
+                                </li>
+                            </ul>
+                            <div class="right goto">
+                                跳转到 <input class="gotoPage" type="text" value=""> 页
+                                <input class="go" type="button" value="go">
+                            </div>
+                        </nav>
+                        <div class="pageShow right">
+                            <div>
+                                当前页为<span class="isPage">  </span>页
+                            </div>
+                            <div>共<span class="allPage">  </span>页</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="single-manage3" class="panel panel-info user-list">
+                    <div class="panel-heading">行业</div>
+                    <!-- 表格部分 -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>项目名称</th>
+                                <th>code</th>
+                                <th>shorName</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <!-- 数据展示在这里 -->
+                        <tbody class="list"></tbody>
+                    </table>
+                    <!-- 分页部分 -->
+                    <div class="Page clear">
+                        <nav class="xh-pageBody pull-right" aria-label="Page navigation">
+                            <ul class="pagination pull-left">
+                                <li>
+                                    <a href="javascript:;" aria-label="Previous" class="homePage">
+                                                            <span aria-hidden="true">首页</span>
+                                                            </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Previous" class="previous">
+                                                                <span aria-hidden="true">上一页</span>
+                                                                
+                                                            </a>
+                                </li>
+                                <li class="record" currentPage=1 endPage=""><a href="javascript:;" class="current">当前页</a></li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Next" class="next">
+                                                                <span aria-hidden="true">下一页</span>
+                                                            </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Next" class="end">
+                                                                <span aria-hidden="true">尾页</span>
+                                                            </a>
+                                </li>
+                            </ul>
+                            <div class="right goto">
+                                跳转到 <input class="gotoPage" type="text" value=""> 页
+                                <input class="go" type="button" value="go">
+                            </div>
+                        </nav>
+                        <div class="pageShow right">
+                            <div>
+                                当前页为<span class="isPage">  </span>页
+                            </div>
+                            <div>共<span class="allPage">  </span>页</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="single-manage4" class="panel panel-danger user-list">
+                    <div class="panel-heading">指标名称</div>
+                    <!-- 表格部分 -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>数据名称</th>
+                                <th>code</th>
+                                <th>shorName</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <!-- 数据展示在这里 -->
+                        <tbody class="list"></tbody>
+                    </table>
+                    <!-- 分页部分 -->
+                    <div class="Page clear">
+                        <nav class="xh-pageBody pull-right" aria-label="Page navigation">
+                            <ul class="pagination pull-left">
+                                <li>
+                                    <a href="javascript:;" aria-label="Previous" class="homePage">
+                                                                <span aria-hidden="true">首页</span>
+                                                                </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Previous" class="previous">
+                                                                    <span aria-hidden="true">上一页</span>
+                                                                    
+                                                                </a>
+                                </li>
+                                <li class="record" currentPage=1 endPage=""><a href="javascript:;" class="current">当前页</a></li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Next" class="next">
+                                                                    <span aria-hidden="true">下一页</span>
+                                                                </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" aria-label="Next" class="end">
+                                                                    <span aria-hidden="true">尾页</span>
+                                                                </a>
+                                </li>
+                            </ul>
+                            <div class="right goto">
+                                跳转到 <input class="gotoPage" type="text" value=""> 页
+                                <input class="go" type="button" value="go">
+                            </div>
+                        </nav>
+                        <div class="pageShow right">
+                            <div>
+                                当前页为<span class="isPage">  </span>页
+                            </div>
+                            <div>共<span class="allPage">  </span>页</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 数据展示模板 -->
+    <script id="data-list" type="text/html">
+        {{each list}}
+        <tr id="{{$value.id}}">
+            <td>{{$value.dimName}}</td>
+            <td>{{$value.dimCode}}</td>
+            <td>{{$value.dimShortName}}</td>
+            <td>{{$value.dimRemark}}</td>
+            <td>
+                <a href="javascript:;" editId="{{$value.itemId}}" class="showModal btn btn-info btn-xs">编 辑</a>
+                <a href="javascript:;" class="delete btn btn-warning btn-xs">删 除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./../../node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./../../node_modules/art-template/lib/template-web.js"></script>
+
+    <!-- <script src="./js/jQueryProvinces/js/area.js"></script>  
+    <script src="./js/jQueryProvinces/js/select.js"></script>   -->
+    <script src="./../../assets/js/signle-curd/signle-curd.js"></script>
+    <script src="./../../assets/js/unit.js"></script>
+</body>
+
+</html>
