@@ -22,57 +22,65 @@ $(function () {
     // console.log(endPage);
     //点击首页
     $('.homePage').click(function () {
-        searchCon=$('.itemName').val();
-        // console.log(searchCon);
-        pageNum = 1;
-        //模糊查询
-        fuzzyGetHomePage({
-            url:url+'/findItem',
-            pageNum: pageNum,
-            pageSize: pageSize,
-            searchId: searchId,
-            searchName:searchCon,
-            whichSingle:'#total-manage '
-        })
+        // searchCon=$('.itemName').val();
+        // // console.log(searchCon);
+        // pageNum = 1;
+        // //模糊查询
+        // fuzzyGetHomePage({
+        //     url:url+'/findItem',
+        //     pageNum: pageNum,
+        //     pageSize: pageSize,
+        //     searchId: searchId,
+        //     searchName:searchCon,
+        //     whichSingle:'#total-manage '
+        // })
+        var that = $(this)
+        updownPage(that,url+'/findItem');
     })
     //点击上一页
     $('.previous').click(function () {
-        searchCon=$('.itemName').val();
-        if (pageNum == 1) {
-            alert('当前页为首页')
-            return false;
-        } else {
-            pageNum--;
-        }
-        fuzzyGetHomePage({
-            url:url+'/findItem',
-            pageNum: pageNum,
-            pageSize: pageSize,
-            searchId: searchId,
-            searchName:searchCon,
-            whichSingle:'#total-manage '
-        })
+        var searchCon=$('.itemName').val();
+        // if (pageNum == 1) {
+        //     alert('当前页为首页')
+        //     return false;
+        // } else {
+        //     pageNum--;
+        // }
+        // fuzzyGetHomePage({
+        //     url:url+'/findItem',
+        //     pageNum: pageNum,
+        //     pageSize: pageSize,
+        //     searchId: searchId,
+        //     searchName:searchCon,
+        //     whichSingle:'#total-manage '
+        // })
+        var that = $(this)
+        updownPage(that,url+'/findItem');
     });
 
     //点击下一页
     $('.next').click(function () {
+        var endPage=$('#total-manage .record').attr('endPage')
         console.log(endPage);
         console.log(pageNum)
-        searchCon=$('.itemName').val();
-        if (pageNum >= endPage) {
-            alert('当前页为最后一页')
-            return;
-        } else {
-            pageNum++;
-        }
-        fuzzyGetHomePage({
-            url:url+'/findItem',
-            pageNum: pageNum,
-            pageSize: pageSize,
-            searchId: searchId,
-            searchName:searchCon,
-            whichSingle:'#total-manage '
-        })
+        // var searchCon=$('.itemName').val();
+
+        var that = $(this)
+        updownPage(that,url+'/findItem');
+        // if (pageNum >= endPage) {
+        //     alert('当前页为最后一页')
+        //     return;
+        // } else {
+        //     pageNum++;
+        // }
+        // fuzzyGetHomePage({
+        //     url:url+'/findItem',
+        //     pageNum: pageNum,
+        //     pageSize: pageSize,
+        //     searchId: searchId,
+        //     searchName:searchCon,
+        //     whichSingle:'#total-manage '
+        // })
         // var that = $(this)
         // updownPage(that);
     });
@@ -80,16 +88,18 @@ $(function () {
     //点击尾页
     $('.end').click(function () {
         // console.log(endpage)
-        pageNum = endPage
-        searchCon=$('.itemName').val();
-        fuzzyGetHomePage({
-            url:url+'/findItem',
-            pageNum: pageNum,
-            pageSize: pageSize,
-            searchId: searchId,
-            searchName:searchCon,
-            whichSingle:'#total-manage '
-        })
+        // pageNum = endPage
+        // searchCon=$('.itemName').val();
+        // fuzzyGetHomePage({
+        //     url:url+'/findItem',
+        //     pageNum: pageNum,
+        //     pageSize: pageSize,
+        //     searchId: searchId,
+        //     searchName:searchCon,
+        //     whichSingle:'#total-manage '
+        // })
+        var that = $(this)
+        updownPage(that,url+'/findItem');
     })
     //点击跳转页
     $('.go').click(function () {
@@ -412,10 +422,12 @@ $(function () {
                         //根据搜索框内容重新加载
                         pageNum=parseInt($('.isPage').text())
                         fuzzyGetHomePage({
+                            url:url+'findItem',
                             pageNum: pageNum,
                             pageSize: pageSize,
                             searchId: searchId,
-                            searchName:searchCon
+                            searchName:searchCon,
+                            whichSingle:'#total-manage '
                         });
                     } else if (result.status === 'fail') {
                         alert('删除失败')
@@ -432,11 +444,7 @@ $(function () {
             // $.ajax(getIndexData)
             // $.ajax(getIndexData);
         }
-        
-
     })
-
-
     //搜索框输入内容功能 
     var preVal = '',
         nowVal = '',
@@ -478,10 +486,12 @@ $(function () {
                             $('.itemName').val(tipName);
                             searchCon=$('.itemName').val();
                             fuzzyGetHomePage({
+                                url:url+'findItem',
                                 pageNum: pageNum,
                                 pageSize: pageSize,
                                 searchId: searchId,
-                                searchName:searchCon
+                                searchName:searchCon,
+                                whichSingle:'#total-manage '
                             })
                         })
                     }
@@ -494,34 +504,33 @@ $(function () {
             $.ajax(getTipsCon)
         }
     })
-
     //搜索功能
     $('.searchBtn').click(function () {
         searchCon = $(".itemName").val()
-        console.log(searchCon)
+        // console.log(searchCon)
         if (!$.trim(searchCon)) {
             alert('搜索内容不能为空')
             return
         } else {
             pageNum=1;
             fuzzyGetHomePage({
+                url:url+'/findItem',
                 pageNum: pageNum,
                 pageSize: pageSize,
                 searchId: searchId,
-                searchName:searchCon
+                searchName:searchCon,
+                whichSingle:'#total-manage '
             });
             $('.searchTips').hide();
         }
     })
-
-
     //跳转到指定页
     function skipByPageNum() {
-        pageNum = $('.gotoPage').val();
+        var pageNum = $('.gotoPage').val();
         var currentNum = $('.isPage').val();
         searchCon=$('.itemName').val();
         fuzzyGetHomePage({
-            url:url+'findItem',
+            url:url+'/findItem',
             pageNum: pageNum || currentNum,
             pageSize: pageSize,
             searchId: searchId,
@@ -529,57 +538,6 @@ $(function () {
             whichSingle:'#total-manage '
         });
     }
-    //模糊查询
-    // function fuzzyGetHomePage(options) {
-    //     // console.log(options.searchName);
-    //     // var searchName = $('.itemName').val();
-    //     // console.log(searchName)
-    //     // console.log(options.searchId);
-    //     //模糊查询
-    //     var getDataByFuzzy = {
-    //         url: url+'/findItem',
-    //         data: {
-    //             pageNum: options.pageNum || 1,
-    //             pageSize: options.pageSize || 15,
-    //             searchId: options.searchId,
-    //             searchName: options.searchName
-    //         },
-    //         type: 'post',
-    //         // beforeSend: function () {
-    //         //     $('.loading').show();
-    //         // },
-    //         success: function (result) {
-    //             console.log(result);
-                
-    //             var html = template('data-list', {
-    //                 list: result.list
-    //             });
-    //             $('#list').html(html);
-    //             //计算尾页
-    //             endPage = Math.ceil(result.total / options.pageSize);
-    //             console.log(endPage);
-    //             console.log(options.pageNum)
-    //             $('.isPage').text(options.pageNum)
-    //             $('.allPage').text(result.allPage)
-
-    //             if(result.total==0){
-    //                 alert('没有数据，点击确定返回首页')
-    //                 fuzzyGetHomePage({
-    //                     pageNum: 1,
-    //                     pageSize: pageSize,
-    //                 })
-    //                 $('.itemName').val('');
-    //             }
-    //         },
-    //         error: function (error) {
-    //             console.log(error)
-    //         },
-    //         // complete: function () {
-    //         //     $('.loading').hide();
-    //         // }
-    //     };
-    //     $.ajax(getDataByFuzzy);
-    // }
     //点击展开收缩
     $('.navs ul li ul li a').click(function () {
         return false;
@@ -590,6 +548,4 @@ $(function () {
         $(this).next().toggle();
         // return false;   
     })
-
-
 })

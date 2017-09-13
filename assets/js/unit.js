@@ -127,9 +127,11 @@
                 $(options.whichSingle+'.list').html(html);
                 //计算尾页
                 endPage = Math.ceil(result.total / options.pageSize);
-                console.log(endPage);
-                console.log(options.pageNum)
+
+                // console.log(endPage);
+                // console.log(options.pageNum)
                 $(options.whichSingle+'.record').attr({"endPage":endPage})
+                $(options.whichSingle+'.record').attr({"currentPage":options.pageNum})
                 $(options.whichSingle+'.isPage').text(options.pageNum)
                 $(options.whichSingle+'.allPage').text(result.allPage)
 
@@ -153,7 +155,7 @@
     }
 
     //单表管理中的首页/上一页/下一页/尾页/跳转
-    function updownPage(that) {
+    function updownPage(that,url) {
         
         var id = '#' + that.closest('.panel').attr('id');
         var mark = id.charAt(id.length - 1);
@@ -162,18 +164,29 @@
         // $(id+' .record').attr({'endPage':})
         switch (mark) {
             case "1":
-                typeFlag = "unit"
+                typeFlag = "unit";
+                searchId=undefined;
+                searchCon=undefined;
                 break;
             case "2":
-                typeFlag = "datatype"
+                typeFlag = "datatype";
+                searchId=undefined;
+                searchCon=undefined;
                 break;
             case "3":
-                typeFlag = "industry"
+                typeFlag = "industry";
+                searchId=undefined;
+                searchCon=undefined;
                 break;
             case "4":
-                typeFlag = "index"
+                typeFlag = "index";
+                searchId=undefined;
+                searchCon=undefined;
                 break;
             default:
+                typeFlag = undefined;
+                searchId=undefined;
+                var searchCon=$('.itemName').val();
                 break;
         }
         if (that.attr('class') == "previous") {
@@ -192,20 +205,24 @@
             }
         }else if(that.attr('class')=="homePage"){
             fuzzyGetHomePage({
-                url: url + '/viewdim',
+                url: url,
                 pageNum: 1,
                 pageSize: pageSize,
                 typeFlag: typeFlag,
+                searchId: searchId,
+                searchName:searchCon,
                 whichSingle: id+' '
             });
             $(id+' .record').attr({'currentPage':pageNum})
             return;
         }else if(that.attr('class')=='end'){
             fuzzyGetHomePage({
-                url: url + '/viewdim',
+                url: url,
                 pageNum: endPage,
                 pageSize: pageSize,
                 typeFlag: typeFlag,
+                searchId: searchId,
+                searchName:searchCon,
                 whichSingle: id+' '
             });
             $(id+' .record').attr({'currentPage':endPage})
@@ -219,7 +236,7 @@
                 return;
             }else{
                 fuzzyGetHomePage({
-                    url: url + '/viewdim',
+                    url: url,
                     pageNum: gotoPageVal,
                     pageSize: pageSize,
                     typeFlag: typeFlag,
@@ -231,11 +248,14 @@
             }
         }
         $(id+' .record').attr({'currentPage':pageNum})
+        // console.log(url)
         fuzzyGetHomePage({
-            url: url + '/viewdim',
+            url: url ,
             pageNum: pageNum,
             pageSize: pageSize||10,
             typeFlag: typeFlag,
+            searchId: searchId,
+            searchName:searchCon,
             whichSingle: id+' '
         })
     }

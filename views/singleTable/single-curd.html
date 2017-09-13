@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="stylesheet" href="../../assets/css/single-curd.css">
 </head>
 
 <body>
@@ -88,6 +89,7 @@
                                 <th>单位名称</th>
                                 <th>code</th>
                                 <th>备注</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <!-- 数据展示在这里 -->
@@ -95,6 +97,7 @@
                     </table>
                     <!-- 分页部分 -->
                     <div class="Page clear">
+                        <button type="button" editId='' class="addSingle btn btn-default btn-sm" data-toggle="modal" data-target="#singleAddModal">添加</button>
                         <nav class="xh-pageBody pull-right" aria-label="Page navigation">
                             <ul class="pagination pull-left">
                                 <li>
@@ -142,6 +145,7 @@
                                 <th>code</th>
                                 <th>shorName</th>
                                 <th>备注</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <!-- 数据展示在这里 -->
@@ -149,6 +153,7 @@
                     </table>
                     <!-- 分页部分 -->
                     <div class="Page clear">
+                        <button type="button" class="addSingle btn btn-default btn-sm" data-toggle="modal" data-target="#singleAddModal">添加</button>
                         <nav class="xh-pageBody pull-right" aria-label="Page navigation">
                             <ul class="pagination pull-left">
                                 <li>
@@ -197,6 +202,7 @@
                                 <th>code</th>
                                 <th>shorName</th>
                                 <th>备注</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <!-- 数据展示在这里 -->
@@ -204,6 +210,7 @@
                     </table>
                     <!-- 分页部分 -->
                     <div class="Page clear">
+                        <button type="button" class="addSingle btn btn-default btn-sm" data-toggle="modal" data-target="#singleAddModal">添加</button>
                         <nav class="xh-pageBody pull-right" aria-label="Page navigation">
                             <ul class="pagination pull-left">
                                 <li>
@@ -252,6 +259,7 @@
                                 <th>code</th>
                                 <th>shorName</th>
                                 <th>备注</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <!-- 数据展示在这里 -->
@@ -259,6 +267,7 @@
                     </table>
                     <!-- 分页部分 -->
                     <div class="Page clear">
+                        <button type="button" class="addSingle btn btn-default btn-sm" data-toggle="modal" data-target="#singleAddModal">添加</button>
                         <nav class="xh-pageBody pull-right" aria-label="Page navigation">
                             <ul class="pagination pull-left">
                                 <li>
@@ -298,19 +307,85 @@
                     </div>
                 </div>
             </div>
+            <!-- 添加单表模态框 -->
+            <div class="modal fade" id="singleAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-sm" role="document" style="width:600px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">添加</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="javascript:;" id="singleAddForm">
+                                <input type="hidden" name="id" value="" />
+                                <input type="hidden" name="typeFlag" value="" />
+                                <p>名称</p>
+                                <input type="text" name="dimName" class="form-control" placeholder="请输入单位名称" required="required" />
+                                <p>code</p>
+                                <input type="text" name="dimCode" class="form-control" placeholder="请输入code" required="required" />
+                                <p>shortName</p>
+                                <input type="text" name="dimShortName" class="form-control" placeholder="请输入shortName" required="required" />
+                                <p>备注</p>
+                                <input type="text" name="dimRemark" class="form-control" placeholder="请输入备注" required="required" />
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary" id="saveAddSingle">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 编辑单表模态框 -->
+            <div class="modal fade" id="singleEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-sm" role="document" style="width:600px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">编辑</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="javascript:;" id="singleEditForm">
+                                <input type="hidden" name="id" value="" />
+                                <input type="hidden" name="typeFlag" value="" />
+                                <p>名称</p>
+                                <input type="text" name="dimName" class="form-control" placeholder="请输入单位名称" required="required" />
+                                <p>code</p>
+                                <input type="text" name="dimCode" class="form-control" placeholder="请输入code" required="required" />
+                                <p>shortName</p>
+                                <input type="text" name="dimShortName" class="form-control" placeholder="请输入shortName" required="required" />
+                                <p>备注</p>
+                                <input type="text" name="dimRemark" class="form-control" placeholder="请输入备注" required="required" />
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary" id="saveEditSingle">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
     <!-- 数据展示模板 -->
     <script id="data-list" type="text/html">
         {{each list}}
-        <tr id="{{$value.id}}">
+        <tr id="{{$value.id}}" typeFlag="{{$value.typeFlag}}">
+            {{if list[0].typeFlag=='unit'}}
+            <td>{{$value.dimName}}</td>
+            <td>{{$value.dimCode}}</td>
+            <td>{{$value.dimRemark}}</td>
+            {{else}}
             <td>{{$value.dimName}}</td>
             <td>{{$value.dimCode}}</td>
             <td>{{$value.dimShortName}}</td>
             <td>{{$value.dimRemark}}</td>
+            {{/if}}
+
             <td>
-                <a href="javascript:;" editId="{{$value.itemId}}" class="showModal btn btn-info btn-xs">编 辑</a>
-                <a href="javascript:;" class="delete btn btn-warning btn-xs">删 除</a>
+                <a href="javascript:;" editId="{{$value.id}}" class="showModal btn btn-info btn-xs">编 辑</a>
+                <a href="javascript:;" typeFlag="{{list[0].typeFlag}}" class="delete btn btn-warning btn-xs">删 除</a>
             </td>
         </tr>
         {{/each}}
