@@ -128,7 +128,7 @@
                 //计算尾页
                 endPage = Math.ceil(result.total / options.pageSize);
 
-                // console.log(endPage);
+                console.log(endPage);
                 // console.log(options.pageNum)
                 $(options.whichSingle+'.record').attr({"endPage":endPage})
                 $(options.whichSingle+'.record').attr({"currentPage":options.pageNum})
@@ -136,11 +136,12 @@
                 $(options.whichSingle+'.allPage').text(result.allPage)
 
                 if(result.total==0){
-                    alert('没有数据，点击确定返回首页')
-                    fuzzyGetHomePage({
-                        pageNum: 1,
-                        pageSize: options.pageSize,
-                    })
+                    // alert('没有数据，点击确定返回首页')
+                    // fuzzyGetHomePage({
+                    //     url:options.url,
+                    //     pageNum: 1,
+                    //     pageSize: options.pageSize,
+                    // })
                     // $('.itemName').val('');
                 }
             },
@@ -247,7 +248,7 @@
                 return;
             }
         }
-        $(id+' .record').attr({'currentPage':pageNum})
+        // $(id+' .record').attr({'currentPage':pageNum})
         // console.log(url)
         fuzzyGetHomePage({
             url: url ,

@@ -40,20 +40,6 @@ $(function () {
     //点击上一页
     $('.previous').click(function () {
         var searchCon=$('.itemName').val();
-        // if (pageNum == 1) {
-        //     alert('当前页为首页')
-        //     return false;
-        // } else {
-        //     pageNum--;
-        // }
-        // fuzzyGetHomePage({
-        //     url:url+'/findItem',
-        //     pageNum: pageNum,
-        //     pageSize: pageSize,
-        //     searchId: searchId,
-        //     searchName:searchCon,
-        //     whichSingle:'#total-manage '
-        // })
         var that = $(this)
         updownPage(that,url+'/findItem');
     });
@@ -67,37 +53,10 @@ $(function () {
 
         var that = $(this)
         updownPage(that,url+'/findItem');
-        // if (pageNum >= endPage) {
-        //     alert('当前页为最后一页')
-        //     return;
-        // } else {
-        //     pageNum++;
-        // }
-        // fuzzyGetHomePage({
-        //     url:url+'/findItem',
-        //     pageNum: pageNum,
-        //     pageSize: pageSize,
-        //     searchId: searchId,
-        //     searchName:searchCon,
-        //     whichSingle:'#total-manage '
-        // })
-        // var that = $(this)
-        // updownPage(that);
     });
 
     //点击尾页
     $('.end').click(function () {
-        // console.log(endpage)
-        // pageNum = endPage
-        // searchCon=$('.itemName').val();
-        // fuzzyGetHomePage({
-        //     url:url+'/findItem',
-        //     pageNum: pageNum,
-        //     pageSize: pageSize,
-        //     searchId: searchId,
-        //     searchName:searchCon,
-        //     whichSingle:'#total-manage '
-        // })
         var that = $(this)
         updownPage(that,url+'/findItem');
     })
@@ -132,11 +91,11 @@ $(function () {
     })
     //点击保存按钮 
     $('#save').click(function () {
-        // var itemName=$('input[name="itemName"]').val();
-        // if(!$.trim(itemName)){
-        //     alert('项目名称不能为空')
-        //     return 
-        // }
+        var itemName=$('input[name="itemName"]').val();
+        if(!$.trim(itemName)){
+            alert('项目名称不能为空')
+            return 
+        }
         //获取用户填写的数据
         $(".unit").val($('#unit option:selected').attr('unitId'));
         $("#frequency").val($(".frequency option:selected").val());
@@ -165,7 +124,7 @@ $(function () {
             type: 'post',
             data: formData,
             success: function (result) {
-                console.log("保存成功");
+                // console.log(JSON.parse(result));
             }
         }
         $.ajax(saveData);
@@ -187,7 +146,7 @@ $(function () {
 
     // 点击编辑按钮
     $('.list').on('click', '.showModal', function () {
-        console.log(endPage);
+        // console.log(endPage);
 
         //获取当前页
         var editPageNum = $('.isPage').val();
@@ -368,7 +327,10 @@ $(function () {
             // console.log(itemId);
             $("#itemId").val(itemId)
             $('#edit .unit').val($('#edit_unit option:selected').attr('unitId'));
-            $("#edit .frequency").val($("#edit_fre option:selected").val());
+            if($("#edit_fre option:selected").val()=="请选择"){
+                $("#edit .frequency").val('');
+            }
+            // $("#edit .frequency").val($("#edit_fre option:selected").val());
             $("#edit .datatype").val($("#edit_datatype option:selected").attr('typeId'));
             $("#edit .industry").val($("#edit_indusName option:selected").attr('indusId'));
             $("#edit .indexName").val($("#edit_indexName option:selected").attr('indexId'));
@@ -418,11 +380,11 @@ $(function () {
                     // alert('删除成功')
                     if (result.status === 'success') {
                         alert('删除成功');
-                        searchCon = $(".itemName").val()
+                        var searchCon = $(".itemName").val()
                         //根据搜索框内容重新加载
-                        pageNum=parseInt($('.isPage').text())
+                        var pageNum=parseInt($('.isPage').text())
                         fuzzyGetHomePage({
-                            url:url+'findItem',
+                            url:url+'/findItem',
                             pageNum: pageNum,
                             pageSize: pageSize,
                             searchId: searchId,
@@ -443,6 +405,8 @@ $(function () {
             pageNum = 1;
             // $.ajax(getIndexData)
             // $.ajax(getIndexData);
+        }else{
+            return
         }
     })
     //搜索框输入内容功能 
@@ -539,10 +503,10 @@ $(function () {
         });
     }
     //点击展开收缩
-    $('.navs ul li ul li a').click(function () {
-        return false;
-    })
-    $('.navs').children('ul').children('li').children('a').click(function (event) {
+    // $('#').click(function () {
+    //     return false;
+    // })
+    $('#singleList').click(function (event) {
         // event.preventDefault();
 
         $(this).next().toggle();
