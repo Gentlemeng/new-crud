@@ -1,7 +1,7 @@
 $(function () {
     //默认“单表管理”展开  点击收缩展开
     $('#singleList').next().show();
-    $('#singleList').click(function(){
+    $('#singleList').click(function () {
         $(this).next().toggle();
     });
 
@@ -86,7 +86,23 @@ $(function () {
                 data: singleData,
                 //添加保存成功
                 success: function (result) {
-
+                    // var pageNum = result.allPage;
+                    // // console.log(pageNum)
+                    // var typeFlag = $('#singleAddForm input[name="typeFlag"]').attr('value');
+                    // console.log(typeFlag)
+                    // var whichSingle = '';
+                    // if (typeFlag == 'unit') {
+                    //     whichSingle = '#single-manage1 '
+                    // } else if (typeFlag == 'datatype') {
+                    //     whichSingle = '#single-manage2 '
+                    // }
+                    // fuzzyGetHomePage({
+                    //     url: url + '/viewdim',
+                    //     pageNum: pageNum,
+                    //     pageSize: pageSize || 10,
+                    //     typeFlag: typeFlag,
+                    //     whichSingle: whichSingle
+                    // })
                 },
                 error: function (err) {
                     console.log(err)
@@ -99,7 +115,7 @@ $(function () {
             $('#singleAddForm input').val('')
         }
     })
-    
+
     //点击编辑按钮
     $('tbody').on('click', '.showModal', function () {
         var that = $(this);
@@ -145,7 +161,7 @@ $(function () {
                     }
                 }
                 $.ajax(addSingleData)
-                
+
                 //隐藏模态框
                 $('#singleEditModal').modal('hide')
                 // 清空输入框
@@ -154,7 +170,7 @@ $(function () {
                 updownPage(that, url + '/viewdim')
                 // var pageNum = that.closest('table').next().find('.record').attr('currentPage');
                 // console.log(pageNum)
-                
+
             }
         })
     })

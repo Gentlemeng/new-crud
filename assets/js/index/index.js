@@ -1,6 +1,6 @@
 $(function () {
     //点击跳转到单表页面，阻止默认行为
-    
+
     //点击任意地方，隐藏模态框
     $('body').click(function () {
         $('.searchTips').hide();
@@ -13,11 +13,11 @@ $(function () {
         searchCon;
     //获取首页数据
     fuzzyGetHomePage({
-        url:url+'/findItem',
+        url: url + '/findItem',
         pageNum: pageNum,
         pageSize: pageSize,
         searchId: searchId,
-        whichSingle:'#total-manage '
+        whichSingle: '#total-manage '
     });
     // console.log(endPage);
     //点击首页
@@ -35,30 +35,30 @@ $(function () {
         //     whichSingle:'#total-manage '
         // })
         var that = $(this)
-        updownPage(that,url+'/findItem');
+        updownPage(that, url + '/findItem');
     })
     //点击上一页
     $('.previous').click(function () {
-        var searchCon=$('.itemName').val();
+        var searchCon = $('.itemName').val();
         var that = $(this)
-        updownPage(that,url+'/findItem');
+        updownPage(that, url + '/findItem');
     });
 
     //点击下一页
     $('.next').click(function () {
-        var endPage=$('#total-manage .record').attr('endPage')
+        var endPage = $('#total-manage .record').attr('endPage')
         console.log(endPage);
         console.log(pageNum)
         // var searchCon=$('.itemName').val();
 
         var that = $(this)
-        updownPage(that,url+'/findItem');
+        updownPage(that, url + '/findItem');
     });
 
     //点击尾页
     $('.end').click(function () {
         var that = $(this)
-        updownPage(that,url+'/findItem');
+        updownPage(that, url + '/findItem');
     })
     //点击跳转页
     $('.go').click(function () {
@@ -78,7 +78,7 @@ $(function () {
     $('.addBtn').on('click', function () {
         //请求数据类型、行业、指标名称、区域相关数据；
         var addSelector = {
-            operate:'add',
+            operate: 'add',
             unitName: '#unit',
             datatype: '#datatype',
             indusName: '#indusName',
@@ -91,10 +91,10 @@ $(function () {
     })
     //点击保存按钮 
     $('#save').click(function () {
-        var itemName=$('input[name="itemName"]').val();
-        if(!$.trim(itemName)){
+        var itemName = $('input[name="itemName"]').val();
+        if (!$.trim(itemName)) {
             alert('项目名称不能为空')
-            return 
+            return
         }
         //获取用户填写的数据
         $(".unit").val($('#unit option:selected').attr('unitId'));
@@ -107,7 +107,7 @@ $(function () {
         var proId = $("#province option:selected").attr('proId')
         if (countyId) {
             $(".area").val(countyId)
-        } else if (cityId) {    
+        } else if (cityId) {
             $(".area").val(cityId)
         } else if (proId) {
             $(".area").val(proId)
@@ -117,14 +117,23 @@ $(function () {
         }
         var formData = $('#formAdd').serialize();
         console.log(formData); //%E8%AF%B7%E9%80%89%E6%8B%A9 
-                                // %E8%AF%B7%E9%80%89%E6%8B%A9
+        // %E8%AF%B7%E9%80%89%E6%8B%A9
         //保存数据发起ajax请求
         var saveData = {
-            url: url+'/addItemSave',
+            url: url + '/addItemSave',
             type: 'post',
             data: formData,
             success: function (result) {
-                // console.log(JSON.parse(result));
+                // console.log(result.allPage);
+                //保存后进行页面渲染
+                fuzzyGetHomePage({
+                    url: url + '/findItem',
+                    pageNum: result.allPage,
+                    pageSize: pageSize,
+                    searchId: searchId,
+                    whichSingle: '#total-manage '
+                });
+
             }
         }
         $.ajax(saveData);
@@ -134,14 +143,7 @@ $(function () {
         $('#formAdd input').val('');
         //初始化区域选择框
         $('#formAdd .outer select').html('<option>请选择</option>')
-        //保存后进行页面渲染
-        fuzzyGetHomePage({
-            url:url+'/findItem',
-            pageNum: 991,
-            pageSize: pageSize,
-            searchId: searchId,
-            whichSingle:'#total-manage '
-        });
+
     })
 
     // 点击编辑按钮
@@ -158,7 +160,7 @@ $(function () {
         $('#edit').modal();
 
         var editSelector = {
-            operate:'edit',
+            operate: 'edit',
             unitName: '#edit_unit',
             datatype: '#edit_datatype',
             indusName: '#edit_indusName',
@@ -171,25 +173,26 @@ $(function () {
         getItemData(editSelector, function () {
             // var itemId = This.
             var itemData = {
-                url: url+'/itemUpdateView',
+                url: url + '/itemUpdateView',
                 data: itemId,
                 success: function (itemResult) {
                     console.log(itemResult);
-                    
+
                     // $('#edit_unit').val(itemResult.itemUnit);
-                    editSecDraw('#edit_unit',itemResult.itemUnit)
-                    editSecDraw('#edit_fre',itemResult.frequencyName)
-                    editSecDraw('#edit_datatype',itemResult.datatypeName)
-                    editSecDraw('#edit_indusName',itemResult.indusName)
-                    editSecDraw('#edit_indexName',itemResult.indexCode)
-                    function editSecDraw(selector,data){
-                        if(data!=null){
+                    editSecDraw('#edit_unit', itemResult.itemUnit)
+                    editSecDraw('#edit_fre', itemResult.frequencyName)
+                    editSecDraw('#edit_datatype', itemResult.datatypeName)
+                    editSecDraw('#edit_indusName', itemResult.indusName)
+                    editSecDraw('#edit_indexName', itemResult.indexCode)
+
+                    function editSecDraw(selector, data) {
+                        if (data != null) {
                             $(selector).val(data)
-                        }else{
+                        } else {
                             // $(selector).val('<option>请选择</option>');
                         }
                     }
-                    
+
                     $('#formEdit input[name="itemName"]').val(itemResult.itemName);
                     // $('#formEdit input[name="itemUnit"]').val(itemResult.unitName);
                     $('#formEdit input[name="itemUnit"]').val(itemResult.itemUnit);
@@ -206,7 +209,7 @@ $(function () {
                         var proId = $('#edit_province').find('option:selected').attr('proId');
                         console.log(proId)
                         var getCityData = {
-                            url: url+'/getArea',
+                            url: url + '/getArea',
                             data: {
                                 areaId: proId
                             },
@@ -226,7 +229,7 @@ $(function () {
                                 var cityId = itemResult.areaView[1].areaId;
                                 console.log(cityId);
                                 var getEditCountyData = {
-                                    url: url+'/getArea',
+                                    url: url + '/getArea',
                                     data: {
                                         areaId: cityId
                                     },
@@ -259,7 +262,7 @@ $(function () {
                         var proId = $('#edit_province').find('option:selected').attr('proId');
                         console.log(proId)
                         var getCityData = {
-                            url: url+'/getArea',
+                            url: url + '/getArea',
                             data: {
                                 areaId: proId
                             },
@@ -280,7 +283,7 @@ $(function () {
                         //显示市
                         // var cityJson=itemResult.areaView[1];
                         // $('#edit_city').html('<option>'+cityJson.areaName+'</option>')
-                    } else if(areaLength ==1){
+                    } else if (areaLength == 1) {
                         console.log('进来了')
                         var proJson = itemResult.areaView[0];
                         $('#edit_province').val(proJson.areaName)
@@ -289,7 +292,7 @@ $(function () {
                         var proId = itemResult.areaView[0].areaId;
                         console.log(proId)
                         var getCityData = {
-                            url: url+'/getArea',
+                            url: url + '/getArea',
                             data: {
                                 areaId: proId
                             },
@@ -307,8 +310,8 @@ $(function () {
                             }
                         }
                         $.ajax(getCityData)
-                    //没有地区的情况
-                    }else{
+                        //没有地区的情况
+                    } else {
                         console.log('不用做什么');
                     }
                 },
@@ -327,7 +330,7 @@ $(function () {
             // console.log(itemId);
             $("#itemId").val(itemId)
             $('#edit .unit').val($('#edit_unit option:selected').attr('unitId'));
-            if($("#edit_fre option:selected").val()=="请选择"){
+            if ($("#edit_fre option:selected").val() == "请选择") {
                 $("#edit .frequency").val('');
             }
             // $("#edit .frequency").val($("#edit_fre option:selected").val());
@@ -351,7 +354,7 @@ $(function () {
             var editFormData = $('#formEdit').serialize();
             console.log(editFormData);
             var updataData = {
-                url: url+'/updateItemSave',
+                url: url + '/updateItemSave',
                 type: 'post',
                 data: editFormData,
                 success: function (result) {
@@ -371,7 +374,7 @@ $(function () {
             var deleteId = $(this).parent().parent().attr('id');
             console.log(deleteId);
             var deleteData = {
-                url: url+'/deleteItemList',
+                url: url + '/deleteItemList',
                 type: 'post',
                 data: deleteId,
                 success: function (result) {
@@ -382,19 +385,19 @@ $(function () {
                         alert('删除成功');
                         var searchCon = $(".itemName").val()
                         //根据搜索框内容重新加载
-                        var pageNum=parseInt($('.isPage').text())
+                        var pageNum = parseInt($('.isPage').text())
                         fuzzyGetHomePage({
-                            url:url+'/findItem',
+                            url: url + '/findItem',
                             pageNum: pageNum,
                             pageSize: pageSize,
                             searchId: searchId,
-                            searchName:searchCon,
-                            whichSingle:'#total-manage '
+                            searchName: searchCon,
+                            whichSingle: '#total-manage '
                         });
                     } else if (result.status === 'fail') {
                         alert('删除失败')
                     }
-                    
+
                 },
                 error: function (error) {
                     consoel.log(error)
@@ -405,7 +408,7 @@ $(function () {
             pageNum = 1;
             // $.ajax(getIndexData)
             // $.ajax(getIndexData);
-        }else{
+        } else {
             return
         }
     })
@@ -424,7 +427,7 @@ $(function () {
         else if ($.trim(preVal) != $.trim(nowVal)) {
             preVal = nowVal
             var getTipsCon = {
-                url: url+'/tipFindItem',
+                url: url + '/tipFindItem',
                 data: {
                     searchId: searchId,
                     searchName: nowVal
@@ -448,14 +451,14 @@ $(function () {
                             // console.log($(this).text())
                             $('.searchTips').hide();
                             $('.itemName').val(tipName);
-                            searchCon=$('.itemName').val();
+                            searchCon = $('.itemName').val();
                             fuzzyGetHomePage({
-                                url:url+'findItem',
+                                url: url + 'findItem',
                                 pageNum: pageNum,
                                 pageSize: pageSize,
                                 searchId: searchId,
-                                searchName:searchCon,
-                                whichSingle:'#total-manage '
+                                searchName: searchCon,
+                                whichSingle: '#total-manage '
                             })
                         })
                     }
@@ -476,14 +479,14 @@ $(function () {
             alert('搜索内容不能为空')
             return
         } else {
-            pageNum=1;
+            pageNum = 1;
             fuzzyGetHomePage({
-                url:url+'/findItem',
+                url: url + '/findItem',
                 pageNum: pageNum,
                 pageSize: pageSize,
                 searchId: searchId,
-                searchName:searchCon,
-                whichSingle:'#total-manage '
+                searchName: searchCon,
+                whichSingle: '#total-manage '
             });
             $('.searchTips').hide();
         }
@@ -492,14 +495,14 @@ $(function () {
     function skipByPageNum() {
         var pageNum = $('.gotoPage').val();
         var currentNum = $('.isPage').val();
-        searchCon=$('.itemName').val();
+        searchCon = $('.itemName').val();
         fuzzyGetHomePage({
-            url:url+'/findItem',
+            url: url + '/findItem',
             pageNum: pageNum || currentNum,
             pageSize: pageSize,
             searchId: searchId,
-            searchName:searchCon,
-            whichSingle:'#total-manage '
+            searchName: searchCon,
+            whichSingle: '#total-manage '
         });
     }
     //点击展开收缩
