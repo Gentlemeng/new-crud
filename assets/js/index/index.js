@@ -382,10 +382,11 @@ $(function () {
                     // $.ajax(getIndexData)
                     // alert('删除成功')
                     if (result.status === 'success') {
-                        alert('删除成功');
+                        // alert('删除成功');
                         var searchCon = $(".itemName").val()
                         //根据搜索框内容重新加载
-                        var pageNum = parseInt($('.isPage').text())
+                        var pageNum =result.allPage;
+                        // console.log(pageNum)
                         fuzzyGetHomePage({
                             url: url + '/findItem',
                             pageNum: pageNum,

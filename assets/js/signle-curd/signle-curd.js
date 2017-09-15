@@ -81,28 +81,17 @@ $(function () {
             return;
         } else {
             var singleData = $('#singleAddForm').serialize();
+            // console.log(singleData);
+            var typeFlag = $('#singleAddForm input[name="typeFlag"]').val();
             var addSingleData = {
                 url: url + '/adddim',
                 data: singleData,
                 //添加保存成功
                 success: function (result) {
-                    // var pageNum = result.allPage;
-                    // // console.log(pageNum)
-                    // var typeFlag = $('#singleAddForm input[name="typeFlag"]').attr('value');
-                    // console.log(typeFlag)
-                    // var whichSingle = '';
-                    // if (typeFlag == 'unit') {
-                    //     whichSingle = '#single-manage1 '
-                    // } else if (typeFlag == 'datatype') {
-                    //     whichSingle = '#single-manage2 '
-                    // }
-                    // fuzzyGetHomePage({
-                    //     url: url + '/viewdim',
-                    //     pageNum: pageNum,
-                    //     pageSize: pageSize || 10,
-                    //     typeFlag: typeFlag,
-                    //     whichSingle: whichSingle
-                    // })
+                    var pageNum = result.allPage;
+                    // console.log(pageNum)
+                    //判断是那个单表 进行尾页跳转
+                    endSkip(pageNum,typeFlag);
                 },
                 error: function (err) {
                     console.log(err)
@@ -115,7 +104,6 @@ $(function () {
             $('#singleAddForm input').val('')
         }
     })
-
     //点击编辑按钮
     $('tbody').on('click', '.showModal', function () {
         var that = $(this);
@@ -174,15 +162,12 @@ $(function () {
             }
         })
     })
-
-
     //点击删除按钮
     $('tbody').on('click', '.delete', function () {
         var deleteId = $(this).prev().attr('editId');
         var typeFlag = $(this).attr('typeFlag');
         var that = $(this);
-
-        console.log(typeFlag)
+        // console.log(typeFlag)
         $.ajax({
             url: url + '/deletedim',
             data: {
@@ -191,13 +176,9 @@ $(function () {
             },
             success: function (result) {
                 console.log('删除成功');
-                // var pageNum=
-                // fuzzyGetHomePage({
-                //     url:url+'/viewdim',
-                //     pageNum:pageNum
-                // })
-                //当前页刷新
-                updownPage(that, url + '/viewdim')
+                var pageNum = result.allPage;
+                //判断是那个单表 进行尾页跳转
+                endSkip(pageNum,typeFlag);
             },
             error: function (err) {
                 console.log(err);
@@ -257,6 +238,27 @@ $(function () {
         }
     }
     //添加保存和编辑保存
+
+    //添加保存和编辑保存成功后的跳转
+    function endSkip(pageNum,typeFlag){
+        var whichSingle = '';
+        if (typeFlag == 'unit') {
+            whichSingle = '#single-manage1 '
+        } else if (typeFlag == 'datatype') {
+            whichSingle = '#single-manage2 '
+        } else if (typeFlag == 'industry') {
+            whichSingle = '#single-manage3 '
+        } else if (typeFlag == 'index') {
+            whichSingle = '#single-manage4 '
+        }
+        fuzzyGetHomePage({
+            url: url + '/viewdim',
+            pageNum: pageNum,
+            pageSize: pageSize || 10,
+            typeFlag: typeFlag,
+            whichSingle: whichSingle
+        })
+    }
 
 
 
